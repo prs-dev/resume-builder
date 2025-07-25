@@ -7,7 +7,15 @@ const Layout = () => {
         name: '',
         title: "",
         email: "",
-        phone: ""
+        phone: "",
+        education: [
+            {
+                school: '',
+                degree: '',
+                start: '',
+                end: ""
+            }
+        ]
     })
   return (
     <div>
@@ -16,7 +24,7 @@ const Layout = () => {
                 <Form data={data} setData={setData}/>
             </div>
             <div className='w-1/2 pl-4 bg-gray-100 shadow rounded'>
-                <Preview {...{data, setData}}/>
+                <Preview {...{data}}/>
             </div>
         </main>
     </div>
