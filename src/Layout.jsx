@@ -15,13 +15,14 @@ const Layout = () => {
                 start: '',
                 end: ""
             }
-        ]
+        ],
+        skills: []
     })
   return (
     <div>
         <main className='flex p-4 h-screen'>
             <div className='w-1/2 pr-4'>
-                <Form data={data} setData={setData}/>
+                <Form {...{data, setData}}/>
             </div>
             <div className='w-1/2 pl-4 bg-gray-100 shadow rounded'>
                 <Preview {...{data}}/>

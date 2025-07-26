@@ -3,8 +3,10 @@ import { inputStyles } from '../styles/input'
 import { IoIosAddCircleOutline } from "react-icons/io";
 import { MdDelete, MdUpdateDisabled } from "react-icons/md";
 import { MdEdit } from "react-icons/md";
+import { ImCross } from "react-icons/im";
 
 const Form = ({ data, setData }) => {
+  const [skill, setSkill] = useState('')
   const handleChange = (e) => {
     setData(prev => ({
       ...prev,
@@ -13,38 +15,43 @@ const Form = ({ data, setData }) => {
   }
 
   const addEducation = () => setData(prev => {
-        return {
-          ...prev,
-          education: [
-            ...prev.education,
-            {
-              school: '',
-              degree: '',
-              start: '',
-              end: ""
-            }
-          ]
+    return {
+      ...prev,
+      education: [
+        ...prev.education,
+        {
+          school: '',
+          degree: '',
+          start: '',
+          end: ""
         }
-      })
+      ]
+    }
+  })
 
   const removeEducation = (index) => {
     // console.log(index)
     const newArr = data?.education.filter((item, i) => i !== index)
     // console.log("testum", newArr)
-    setData(prev => ({...prev, education: newArr}))
+    setData(prev => ({ ...prev, education: newArr }))
   }
 
   const handleEducationChange = (index, field, value) => {
     const updatedEducation = [...data.education]
     updatedEducation[index][field] = value
-    setData(prev => ({...prev, education: updatedEducation}))
+    setData(prev => ({ ...prev, education: updatedEducation }))
   }
+
+  // const handleSkillChange = e => {
+  //     const updatedSkills = [...data?.skills, e.target.value]
+  //     setData(prev => ({...prev, skills: updatedSkills}))
+  // }
 
   console.log(inputStyles())
   console.log(data)
   return (
     <>
-      <form action="" className='flex flex-col gap-4'>
+      <form action="" onSubmit={e => e.preventDefault()} className='flex flex-col gap-4'>
         <label htmlFor="">Name</label>
         <input className='shadow-sm p-2' placeholder='Enter Name' type="text" name="name" id="" value={data?.name} onChange={handleChange} />
         <label htmlFor="">Title</label>
@@ -83,8 +90,43 @@ const Form = ({ data, setData }) => {
             </div>
           </>
         ))}
+        <button type='button' onClick={addEducation}><IoIosAddCircleOutline size="2em" /></button>
       </form>
-      <button type='button' onClick={addEducation}><IoIosAddCircleOutline size="2em" /></button>
+      <div>
+        <form className='my-4 flex flex-col gap-2' onSubmit={e => e.preventDefault()}>
+          <p className='text-xl font-semibold'>Skills</p>
+          <input type="text" name="" id="" className={`${inputStyles()} w-full`} value={skill} onChange={e => setSkill(e.target.value)} onKeyDown={e => {
+            if (e.key === "Enter") {
+              if(data?.skills?.includes(skill)) {
+                window.alert("skill already added")
+                return 
+              }
+              if (data?.skills?.length < 10 && skill.length !== 0) {
+                const updatedSkills = [...data?.skills, skill]
+                setData(prev => ({ ...prev, skills: updatedSkills }))
+                setSkill('')
+              } else if (skill.length === 0) {
+                window.alert('not allowed')
+                return 
+              }
+               else {
+                window.alert("You can add only 10 skills !")
+                return 
+              }
+            }
+          }} />
+        </form>
+        <div className='flex gap-2 flex-wrap'>
+          {data?.skills?.map(item => (
+            <div className='flex items-center gap-2 p-1 rounded-sm shadow-md'>
+              <span>{item}</span>
+              <button className='text-red-400' onClick={() => setData(prev => ({ ...prev, skills: data?.skills?.filter(i => i !== item) }))
+              }><ImCross /></button>
+            </div>
+          ))}
+        </div>
+      </div>
+
     </>
   )
 }

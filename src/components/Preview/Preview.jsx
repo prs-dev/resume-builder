@@ -30,6 +30,12 @@ const Preview = ({data}) => {
           </li>)}
         </ul>
       </div>
+      <div>
+        <h2 className="text-xl my-2 underline py-2">Skills</h2>
+        <ul className="p-2 text-sm">
+          {data?.skills?.map(item => <li className="list-decimal">{item}</li>)}
+        </ul>
+      </div>
     </div>
   )
 }
