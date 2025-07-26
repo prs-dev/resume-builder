@@ -16,7 +16,16 @@ const Layout = () => {
                 end: ""
             }
         ],
-        skills: []
+        skills: [],
+        experience: [
+            {
+                company: '',
+                role: "",
+                start: "",
+                end: "",
+                description: ''
+            }
+        ]
     })
   return (
     <div>

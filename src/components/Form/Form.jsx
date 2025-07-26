@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
-import { inputStyles } from '../styles/input'
+import { inputStyles, headingStyle } from '../styles/input'
 import { IoIosAddCircleOutline } from "react-icons/io";
 import { MdDelete, MdUpdateDisabled } from "react-icons/md";
 import { MdEdit } from "react-icons/md";
 import { ImCross } from "react-icons/im";
+import ExpForm from './ExpForm';
 
 const Form = ({ data, setData }) => {
   const [skill, setSkill] = useState('')
@@ -60,7 +61,7 @@ const Form = ({ data, setData }) => {
         <input className='shadow-sm p-2' type="email" placeholder='Enter Email' name="email" id="" value={data?.email} onChange={handleChange} />
         <label htmlFor="">Phone</label>
         <input className='shadow-sm p-2' type="number" placeholder='Enter phone number' name="phone" id="" value={data?.phone} onChange={handleChange} />
-        <div className='text-lg font-semibold my-4'>
+        <div className={headingStyle()}>
           <p>Education Details</p>
         </div>
         {data?.education?.map((item, i) => (
@@ -94,7 +95,7 @@ const Form = ({ data, setData }) => {
       </form>
       <div>
         <form className='my-4 flex flex-col gap-2' onSubmit={e => e.preventDefault()}>
-          <p className='text-xl font-semibold'>Skills</p>
+          <p className={headingStyle()}>Skills</p>
           <input type="text" name="" id="" className={`${inputStyles()} w-full`} value={skill} onChange={e => setSkill(e.target.value)} onKeyDown={e => {
             if (e.key === "Enter") {
               if(data?.skills?.includes(skill)) {
@@ -126,7 +127,7 @@ const Form = ({ data, setData }) => {
           ))}
         </div>
       </div>
-
+      <ExpForm {...{data, setData}}/>
     </>
   )
 }
