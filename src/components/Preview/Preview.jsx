@@ -2,7 +2,7 @@ import { MdEmail } from "react-icons/md";
 import { MdLocalPhone } from "react-icons/md";
 import { useRef } from "react";
 import html2pdf from 'html2pdf.js/dist/html2pdf.min'
-
+import { IoPrintSharp } from "react-icons/io5";
 
 const Preview = ({ data }) => {
   // console.log("test",data)
@@ -19,33 +19,35 @@ const Preview = ({ data }) => {
   const contentRef = useRef(null)
   console.log("ref", contentRef)
   const generatePdf = () => {
-  if (contentRef.current) {
-    console.log("i am here")
-    const opt = {
-      margin: 0.5,
-      filename: 'resume.pdf',
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2 }, // better quality
-      jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
-    };
+    if (contentRef.current) {
+      console.log("i am here")
+      const opt = {
+        margin: 0.5,
+        filename: 'resume.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2 }, // better quality
+        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+      };
 
-    html2pdf().set(opt).from(contentRef.current).save("test.pdf");
-    console.log("everything run")
-  }
-};
+      html2pdf().set(opt).from(contentRef.current).save();
+      console.log("everything run")
+    }
+  };
 
   // console.log(html2pdf)
   return (
-    <>
-    <div className='p-2 flex gap-4 flex-col' ref={contentRef}>
-      {/* {Object.values(data).every(i => i === '') && <h1 className='text-gray-400'>Preview</h1>} */}
-      
+    <div className="flex flex-col gap-2 justify-between">
+      <div className="self-end"><button onClick={generatePdf}><IoPrintSharp size={30} /></button></div>
+      {/* dont use bg-gray-100 it will not work with pdf */}
+      <div id="printable-stuff" className='flex gap-4 flex-col shadow-sm rounded-md p-10' ref={contentRef}>
+        {/* {Object.values(data).every(i => i === '') && <h1 className='text-gray-400'>Preview</h1>} */}
+
         <h1 className='text-4xl'>{data?.name}</h1>
         <p className='text-sm'>{data?.title}</p>
         <div className='flex items-center justify-between shadow-sm p-2 rounded-sm'>
           <div className="flex gap-2 items-center">
             {data.email && <MdEmail />}
-            <p className='text-sm'>{data?.email}</p>
+            <div className='text-sm'>{data?.email}</div>
           </div>
           <div className="flex gap-2 items-center">
             {data.phone && <MdLocalPhone />}
@@ -65,16 +67,16 @@ const Preview = ({ data }) => {
         </div>
         <div>
           <h2 className="text-xl my-2 underline py-2">Skills</h2>
-          <ul className="p-2 text-sm">
-            {data?.skills?.map(item => <li className="list-decimal">{item}</li>)}
+          <ul className="text-sm">
+            {data?.skills?.map(item => <li>{item}</li>)}
           </ul>
         </div>
         <div>
           <h2 className="text-xl my-2 underline py-2">Experience</h2>
-          <ul className="list-disc p-2 flex flex-col gap-2">
+          <ul className="flex flex-col gap-2 text-sm">
             {
               data?.experience?.map(item => (
-                <li>
+                <li className="flex flex-col gap-2">
                   <div>
                     <span>{item?.role}</span> -- <span>{item?.company}</span>
                   </div>
@@ -84,14 +86,14 @@ const Preview = ({ data }) => {
                   <div>
                     <p>{item?.description}</p>
                   </div>
+                  <hr className="my-2" />
                 </li>
               ))
             }
           </ul>
         </div>
+      </div>
     </div>
-      <button onClick={generatePdf}>print</button>
-      </>
   )
 }
 

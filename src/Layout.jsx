@@ -33,7 +33,7 @@ const Layout = () => {
             <div className='w-1/2 pr-4'>
                 <Form {...{data, setData}}/>
             </div>
-            <div className='w-1/2 pl-4 bg-gray-100 shadow rounded'>
+            <div className='w-1/2 pl-4'>
                 <Preview {...{data}}/>
             </div>
         </main>
